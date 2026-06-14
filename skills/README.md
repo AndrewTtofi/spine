@@ -26,3 +26,6 @@ namespace separate from the engineering Spine. Opt in with `raise-init`.
 - **[raise-strategy](./raise-strategy/SKILL.md)** — Synthesise the namespace into a full fundraising strategy memo.
 - **[raise-pitch](./raise-pitch/SKILL.md)** — Stress-test (devil + angel) and fund-specific meeting prep.
 - **[raise-outreach](./raise-outreach/SKILL.md)** — Cold/warm/DM variants + one-pager; drafts only, refuses no-go funds.
+- **[raise-debrief](./raise-debrief/SKILL.md)** — Post-meeting signal read, diligence queue, follow-up email, next step.
+- **[raise-term](./raise-term/SKILL.md)** — Term-sheet clause analysis + negotiation list (informational, not legal advice).
+- **[raise-report](./raise-report/SKILL.md)** — Pipeline tracker + consolidated investor-ready dossier.

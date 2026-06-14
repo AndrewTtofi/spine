@@ -21,6 +21,9 @@
     "./skills/raise-funds",
     "./skills/raise-strategy",
     "./skills/raise-pitch",
-    "./skills/raise-outreach"
+    "./skills/raise-outreach",
+    "./skills/raise-debrief",
+    "./skills/raise-term",
+    "./skills/raise-report"
   ]
 }

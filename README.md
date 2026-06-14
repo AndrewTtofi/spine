@@ -130,6 +130,9 @@ untouched if you never do.
 - **[raise-strategy](./skills/raise-strategy/SKILL.md)** — Synthesise the namespace into a full strategy memo: parameters, sequencing, milestones, timeline, next actions.
 - **[raise-pitch](./skills/raise-pitch/SKILL.md)** — Stress-test (ten lethal questions + ten strongest signals) and fund-specific meeting prep.
 - **[raise-outreach](./skills/raise-outreach/SKILL.md)** — Fund-specific cold email, warm-intro request, LinkedIn DM, and one-pager — drafted, never sent; refuses no-go funds.
+- **[raise-debrief](./skills/raise-debrief/SKILL.md)** — Post-meeting debrief: signal read, open diligence queue, send-ready follow-up email, next step.
+- **[raise-term](./skills/raise-term/SKILL.md)** — Term-sheet analysis: clause benchmarking, founder-friendliness score, ranked negotiation list. Informational, not legal advice.
+- **[raise-report](./skills/raise-report/SKILL.md)** — Pipeline tracker (status of every fund) plus a consolidated, investor-ready dossier.
 
 ## Dashboard
 
