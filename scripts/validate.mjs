@@ -50,7 +50,9 @@ const marketplace = readJson(
   "marketplace.json",
 );
 if (marketplace) collect(validateMarketplace(marketplace));
-if (plugin && marketplace) collect(crossCheck(plugin, marketplace));
+// Root package.json version must agree with both manifests (else upgrades no-op).
+const rootPkg = readJson(join(root, "package.json"), "package.json");
+if (plugin && marketplace) collect(crossCheck(plugin, marketplace, rootPkg?.version));
 
 // ── Skills: each listed skill exists, has valid frontmatter (name == folder) ──
 for (const rel of plugin?.skills ?? []) {

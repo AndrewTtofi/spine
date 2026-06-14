@@ -21,13 +21,25 @@ why*. This skill assembles that claim from the Spine instead of from memory.
    this work intends to ship.
 4. **Commit hygiene.** Group changes into clear, conventional commits with
    messages that explain *why*, following any pattern in `conventions.md`.
-5. **Compose the PR body from the Spine.** Summary of what changed and why; the
+5. **Bump the version if the change ships.** If the diff touches the installable
+   plugin surface — anything under `skills/`, or the plugin/marketplace manifests
+   — **bump the version** so existing installs actually upgrade (an unchanged
+   version makes `/plugin` upgrade a silent no-op). For this repo that means the
+   **same** new version in all three places: root `package.json`,
+   `.claude-plugin/plugin.json`, and the `.claude-plugin/marketplace.json`
+   `plugins[]` entry. Use **minor** for a new skill or capability, **patch** for a
+   fix to an existing skill; refresh the marketplace entry's description/keywords
+   if the surface changed. CI's release-check enforces this on the PR, and the
+   validator enforces that the three versions match — do it here so the gate is
+   green. (Pure tooling-only changes — `scripts/`, `.github/`, `.spine/`, docs —
+   need no bump.)
+6. **Compose the PR body from the Spine.** Summary of what changed and why; the
    acceptance criteria as a ticked checklist; links to the ADRs that justify the
    approach; and the verification evidence (the real command output, not a
    claim). Name things using the Spine's shared language.
-6. **Push and open the PR** against the base branch. Run the test/build commands
+7. **Push and open the PR** against the base branch. Run the test/build commands
    from `conventions.md` one last time if CI won't.
-7. **Record in the Spine.** Update `journal.md`: mark the work shipped, link the
+8. **Record in the Spine.** Update `journal.md`: mark the work shipped, link the
    PR, and set *Next step* (await review / merge). Leave the merge to the user
    unless they ask you to land it.
 
