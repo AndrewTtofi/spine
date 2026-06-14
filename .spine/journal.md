@@ -46,11 +46,11 @@ existing skill.
 
 ## Next step
 
-**Shipped — [PR #15](https://github.com/AndrewTtofi/spine/pull/15) open** (branch
-`fundraising-track`, 7 commits, +1453/−34 across 26 files). Verified: all 12
-criteria met; PR body drawn from the Spine (criteria + ADRs 0015–0017 + evidence).
-`validate` CI check running at open; PR mergeable. **Awaiting review/merge** —
-merge left to the user. On merge, run `remember` to compact this session.
+**Merged — [PR #15](https://github.com/AndrewTtofi/spine/pull/15)** (`8a36c51`,
+branch deleted). The fundraising track is on `main`: 20 skills valid, CI `validate`
+green (9s). The full align→design→build→verify→ship lifecycle was dogfooded again,
+this time adding a whole optional capability. **Run `remember`** to compact this
+session into the Spine.
 
 ## Verification (2026-06-14)
 
