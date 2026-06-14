@@ -52,6 +52,26 @@ existing skill.
 the 12 acceptance criteria with evidence, then **`ship`** the branch as a PR with a
 body drawn from the Spine.
 
+## Verification (2026-06-14)
+
+**Verdict: all 12 acceptance criteria MET, with evidence.**
+- `node scripts/validate.mjs` → **All 20 skills valid** (9 lifecycle + 11 raise) → C8, C9.
+- `node --test scripts/` → **22 tests, 22 pass, 0 fail** → C12 (core unregressed).
+- All 11 `raise-*` skills present; each has `name`==folder, `metadata.track:
+  fundraising`, a `## Spine I/O` section, a "Use when" trigger, and `allowed-tools`
+  → C7. Web/agent tools only where needed (`raise-match` carries `Agent`).
+- Every Spine I/O target is under `.spine/raise/`; the only engineering-Spine
+  mention in the track is `raise-init`'s "Never touches the engineering Spine"
+  negation → C1. All 10 non-init skills stop → `raise-init` when `profile.md` is
+  absent → C2.
+- `raise-match`: 4 `references/agent-*.md` + "fire all four in a single message" →
+  C5. `raise-report` writes `report.md` (consolidated dossier) → C6. `raise-ready`
+  scores fundability + names the gap → C4. Four bundles each covered → C3.
+- `raise-term` says "not legal advice" (3×, leads output); `raise-outreach` "never
+  sends" (2×) → C11. README "Fundraising track (optional)" section present → C10.
+- Clean-room confirmed: grep for `vcupid|Poser Score|Startup Destroyer|Startup
+  Champion|STARTUP_PROFILE|/vc*|3flux` across the track → **none found**.
+
 ## Build plan (slices) — each ends validator-green + fully wired
 
 1. **Foundation** — `raise-init` (bootstrap `.spine/raise/`, seed `profile.md` via

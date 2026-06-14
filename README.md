@@ -122,6 +122,23 @@ structured headers, not loose files. Opt in by running
 [`raise-init`](./skills/raise-init/SKILL.md); the rest of the lifecycle is
 untouched if you never do.
 
+A typical campaign runs the skills in this order:
+
+```
+raise-init → raise-ready → raise-funds → ┌─ per fund ─────────────────────┐
+ profile     fundable?     target list   │ raise-vet → raise-match         │
+                                          │  legit?     fit dossier /100    │
+ raise-strategy ←─ synthesises ───────────┤ raise-pitch → raise-outreach    │
+  the plan                                │  prep         draft (never send) │
+                                          │ raise-debrief → raise-term       │
+ raise-report ←─ tracker + dossier ───────┘  follow-up      term sheet       │
+                                          └────────────────────────────────┘
+```
+
+All state lands in `.spine/raise/` — `profile.md`, `readiness.md`, `strategy.md`,
+`pipeline.md`, `report.md`/`tracker.md`, and a `funds/<slug>/` folder per fund
+(`dossier.md`, `outreach.md`, `pitch.md`, `debrief.md`, `term.md`).
+
 - **[raise-init](./skills/raise-init/SKILL.md)** — Bootstrap `.spine/raise/` and seed the startup profile through a short interview.
 - **[raise-ready](./skills/raise-ready/SKILL.md)** — Are you fundable yet? Pressure-tests demand/ICP/wedge and scores readiness, naming the gap to fix.
 - **[raise-funds](./skills/raise-funds/SKILL.md)** — Research the VC landscape into a ranked pipeline of 15–20 target funds in three tiers.
