@@ -128,6 +128,8 @@ untouched if you never do.
 - **[raise-vet](./skills/raise-vet/SKILL.md)** — Vet a fund's legitimacy cheaply — is it real and active? — before deep research.
 - **[raise-match](./skills/raise-match/SKILL.md)** — Deep fund-fit dossier via four parallel research sub-agents, scored /100, with a pursue/warm-up/no-go verdict.
 - **[raise-strategy](./skills/raise-strategy/SKILL.md)** — Synthesise the namespace into a full strategy memo: parameters, sequencing, milestones, timeline, next actions.
+- **[raise-pitch](./skills/raise-pitch/SKILL.md)** — Stress-test (ten lethal questions + ten strongest signals) and fund-specific meeting prep.
+- **[raise-outreach](./skills/raise-outreach/SKILL.md)** — Fund-specific cold email, warm-intro request, LinkedIn DM, and one-pager — drafted, never sent; refuses no-go funds.
 
 ## Dashboard
 

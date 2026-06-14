@@ -19,6 +19,8 @@
     "./skills/raise-match",
     "./skills/raise-ready",
     "./skills/raise-funds",
-    "./skills/raise-strategy"
+    "./skills/raise-strategy",
+    "./skills/raise-pitch",
+    "./skills/raise-outreach"
   ]
 }
