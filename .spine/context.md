@@ -30,10 +30,18 @@ coding agent to work like a senior engineer and not lose the plot.
   report (errors fail, warnings inform). See
   [[0014-manifest-schema-validation-pure-module]].
 - `scripts/manifest-schema.mjs` — **pure** manifest validators
-  (`validateManifest`, `validateMarketplace`): parsed object → `{errors,
-  warnings}`, no fs/exit. Encodes the Claude Code install-blocker rules (author/
-  owner must be objects, name kebab-case, keywords array, source `./`-prefixed,
-  …). Unit-tested hermetically in `manifest-schema.test.mjs` (`node --test`).
+  (`validateManifest`, `validateMarketplace`, `crossCheck`): parsed object →
+  `{errors, warnings}`, no fs/exit. Encodes the Claude Code install-blocker rules
+  (author/owner must be objects, name kebab-case, keywords array, source
+  `./`-prefixed, …). `crossCheck` now enforces that root `package.json`,
+  `plugin.json`, and the marketplace entry share **one version** (error). Unit-
+  tested hermetically in `manifest-schema.test.mjs` (`node --test`).
+- `scripts/release-check.mjs` — **release guard** (CI, `pull_request`): pure core
+  (`isShippable`, `parseSemver`, `compareSemver`, `requireBump`) + a thin
+  git-shelling CLI that fails any PR changing the installable surface (`skills/**`
+  or a manifest) without a forward semver bump — so `/plugin` upgrades never
+  no-op. Unit-tested in `release-check.test.mjs`. See
+  [[0018-enforce-version-bump-on-ship]].
 - `package.json` (root) — minimal, zero-dep; `test: node --test` scoped to the
   validator tests (the `dashboard/` package keeps its own suite).
 - `dashboard/` — a separate zero-dep npm package, `spine-dashboard`: a read-only

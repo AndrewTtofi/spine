@@ -2,27 +2,42 @@
 
 ## Current focus
 
-**Handoff:** spine is a Claude Code plugin (9 lifecycle skills `init`…`remember` +
-meta `new-skill`) plus an **optional 11-skill fundraising track** (`raise-*`), all
-unified by the per-repo `.spine/` memory store, plus a `spine-dashboard` that
-renders any repo's `.spine/` as a deterministic spring+collision "brain" in a
-Stripe-grade light theme. The fundraising track (PR #15) lives on its own walled-off
-`.spine/raise/` namespace and hands off via structured YAML headers — see
-[[0015-optional-fundraising-track]]. Everything was built by **dogfooding the spine
-lifecycle on this repo**, so `.spine/` here is both the memory and the worked
-example. All merged to `main` (PRs #7–#15); CI (`validate` workflow) + branch
+**Handoff:** spine is a **v1.3.0** Claude Code plugin (9 lifecycle skills
+`init`…`remember` + meta `new-skill`) plus an **optional 11-skill fundraising
+track** (`raise-*`), all unified by the per-repo `.spine/` memory store, plus a
+`spine-dashboard` that renders any repo's `.spine/` as a deterministic
+spring+collision "brain" in a Stripe-grade light theme. The fundraising track
+(PR #15) lives on its own walled-off `.spine/raise/` namespace and hands off via
+structured YAML headers — see [[0015-optional-fundraising-track]]. Releases are now
+**self-policing**: the `ship` skill bumps the version and CI (`validate` workflow +
+`scripts/release-check.mjs`) fails any PR that ships a `skills/`/manifest change
+without a forward bump, so `/plugin` upgrades never silently no-op — see
+[[0018-enforce-version-bump-on-ship]]. Everything was built by **dogfooding the
+spine lifecycle on this repo**. All merged to `main` (PRs #7–#16); CI + branch
 protection gate `main`.
 
-**Active:** none. `main` clean, 20 skills valid, CI green.
+**Active:** none. `main` clean, 20 skills valid, 32 tests pass, CI green.
 
 ## Next step
 
-None pending. The fundraising track is shipped and merged. Candidate follow-ups
-(not committed): a worked `.spine/raise/` example run on a real profile; dashboard
-support for rendering the raise namespace; surfacing more dashboard `concept` nodes.
+None pending. Candidate follow-ups (not committed): a worked `.spine/raise/`
+example run on a real profile; dashboard support for the raise namespace;
+surfacing more dashboard `concept` nodes; a CHANGELOG to pair with the version bumps.
 
 ## History
 
+- 2026-06-14 {release, versioning, ci, ship, tooling} — **PR #16 (merged,
+  `6c1ee6f`)**: make the version bump **self-policing** so `/plugin` upgrades never
+  silently no-op (as the fundraising track nearly did at a stale 1.1.0). Two layers:
+  the `ship` skill bumps the version on any installable-surface change; CI enforces
+  it — `crossCheck` upgraded to a **three-way version-sync error** (package.json +
+  plugin.json + marketplace entry) and a new `scripts/release-check.mjs` fails any
+  PR that ships a `skills/`/manifest change without a forward semver bump. Dogfood:
+  bumped 1.2.0 → **1.3.0**. 32/32 tests. [[0018-enforce-version-bump-on-ship]].
+- 2026-06-14 {release, versioning} — bumped 1.1.0 → **1.2.0** (release commit
+  `e1d2acb`) so existing installs upgrade and pull the fundraising track; synced
+  all three manifests + refreshed the stale marketplace description. This omission
+  is what motivated PR #16.
 - 2026-06-14 {raise, skills, fundraising, namespace, dogfood} — **PR #15 (merged,
   `8a36c51`)**: the **optional fundraising track** — 11 `raise-*` skills taking a
   founder from "are we fundable" through fund research, pitch prep, outreach, term
