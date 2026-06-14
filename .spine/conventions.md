@@ -73,3 +73,12 @@ generic. The repo root has no `package.json`; only `dashboard/` is an npm packag
   (the fundraising track took ideas from the MIT vcupid-plugin), rewrite every
   word in spine's own voice and copy no text — then no attribution is owed. Verify
   with a grep for the source's distinctive strings before shipping.
+- **A shipped plugin change bumps the version.** Any change to the installable
+  surface (`skills/**` or either manifest) must bump the version in **all three**
+  places — root `package.json`, `.claude-plugin/plugin.json`, and the
+  `marketplace.json` `plugins[]` entry — or a `/plugin` upgrade silently pulls
+  nothing. Minor for a new skill/capability, patch for a fix; pure tooling changes
+  (`scripts/`, `.github/`, `.spine/`, docs) need no bump. The `ship` skill does it;
+  `validate.mjs` enforces the three versions match (error); CI's
+  `scripts/release-check.mjs` fails any PR that ships a surface change without a
+  forward bump. See [[0018-enforce-version-bump-on-ship]].

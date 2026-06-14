@@ -67,23 +67,28 @@ export function validateManifest(plugin) {
   return { errors, warnings };
 }
 
-// Cross-manifest consistency. A version mismatch isn't install-blocking
-// (plugin.json wins) but a stale marketplace entry masks the real version —
-// surface it as a warning.
-export function crossCheck(plugin, marketplace) {
+// Cross-manifest version consistency. The three declared versions — root
+// package.json, plugin.json, and the marketplace plugins[] entry — must agree,
+// or a `/plugin` upgrade silently no-ops (the installer keys off the version).
+// A mismatch is therefore an ERROR. `rootVersion` is optional so older callers
+// (and tests for the two manifests alone) still work.
+// See .spine/decisions/0018-enforce-version-bump-on-ship.md.
+export function crossCheck(plugin, marketplace, rootVersion) {
   const errors = [];
   const warnings = [];
   const entries = Array.isArray(marketplace?.plugins) ? marketplace.plugins : [];
   const entry = entries.find((e) => isPlainObject(e) && e.name === plugin?.name);
-  if (
-    entry &&
-    isNonEmptyString(plugin?.version) &&
-    isNonEmptyString(entry.version) &&
-    plugin.version !== entry.version
-  ) {
-    warnings.push(
-      `version mismatch: plugin.json "${plugin.version}" != marketplace.json plugins[].version "${entry.version}" (plugin.json wins; bump the marketplace entry)`,
-    );
+
+  const declared = [
+    ["package.json", rootVersion],
+    ["plugin.json", plugin?.version],
+    ["marketplace.json plugins[].version", entry?.version],
+  ].filter(([, v]) => isNonEmptyString(v));
+
+  const distinct = [...new Set(declared.map(([, v]) => v))];
+  if (declared.length > 1 && distinct.length > 1) {
+    const detail = declared.map(([l, v]) => `${l} "${v}"`).join(" vs ");
+    errors.push(`version mismatch: ${detail} — all must match (bump them together)`);
   }
   return { errors, warnings };
 }

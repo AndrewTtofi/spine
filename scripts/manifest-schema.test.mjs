@@ -191,42 +191,48 @@ test("plugins[] entry missing license/keywords → warnings, not errors", () => 
   assert.ok(!hasErr(res, "license"));
 });
 
-// ── crossCheck (plugin.json ↔ marketplace.json) ─────────────────────────────
+// ── crossCheck (package.json ↔ plugin.json ↔ marketplace.json) ──────────────
 
-test("crossCheck warns on version mismatch (never errors)", () => {
+test("crossCheck errors on plugin↔marketplace version mismatch", () => {
   const res = crossCheck(
     { name: "spine", version: "1.1.0" },
     { plugins: [{ name: "spine", source: "./", version: "1.0.0" }] },
   );
-  assert.ok(hasWarn(res, "version"));
+  assert.ok(hasErr(res, "version mismatch"));
+});
+
+test("crossCheck errors when root package.json disagrees", () => {
+  const res = crossCheck(
+    { name: "spine", version: "1.2.0" },
+    { plugins: [{ name: "spine", source: "./", version: "1.2.0" }] },
+    "1.1.0", // rootVersion out of sync
+  );
+  assert.ok(hasErr(res, "version mismatch"));
+  assert.ok(hasErr(res, "package.json"));
+});
+
+test("crossCheck silent when all three versions match", () => {
+  const res = crossCheck(
+    { name: "spine", version: "1.2.0" },
+    { plugins: [{ name: "spine", source: "./", version: "1.2.0" }] },
+    "1.2.0",
+  );
   assert.deepEqual(res.errors, []);
 });
 
-test("crossCheck silent when versions match", () => {
-  const res = crossCheck(
-    { name: "spine", version: "1.1.0" },
-    { plugins: [{ name: "spine", source: "./", version: "1.1.0" }] },
-  );
-  assert.ok(!hasWarn(res, "version"));
-});
-
 test("crossCheck silent when no matching entry or a version is absent", () => {
-  assert.ok(
-    !hasWarn(
-      crossCheck(
-        { name: "spine", version: "1.1.0" },
-        { plugins: [{ name: "other", version: "2.0.0" }] },
-      ),
-      "version",
-    ),
+  assert.deepEqual(
+    crossCheck(
+      { name: "spine", version: "1.1.0" },
+      { plugins: [{ name: "other", version: "2.0.0" }] },
+    ).errors,
+    [],
   );
-  assert.ok(
-    !hasWarn(
-      crossCheck(
-        { name: "spine" },
-        { plugins: [{ name: "spine", version: "1.1.0" }] },
-      ),
-      "version",
-    ),
+  assert.deepEqual(
+    crossCheck(
+      { name: "spine" },
+      { plugins: [{ name: "spine", version: "1.1.0" }] },
+    ).errors,
+    [],
   );
 });
