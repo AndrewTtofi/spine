@@ -50,3 +50,26 @@ generic. The repo root has no `package.json`; only `dashboard/` is an npm packag
   reload and guarantees zero overlap. Interactions (expand, search, filter) reuse
   those positions and never trigger a relayout. See
   [[0013-deterministic-spring-collision-brain]].
+- **Skills hand off via structured YAML headers, not prose strings.** When one
+  skill's output feeds another, put the machine-read fields in a frontmatter
+  header (the consumer reads them *by key*) and keep the prose for humans. Never
+  couple skills on scraping a literal sentence out of a report — a wording change
+  must not break a downstream step. Established by the fundraising track. See
+  [[0016-raise-namespace-layout-structured-handoff]].
+- **Gate expensive work behind a cheap pre-filter.** When a step is costly (e.g.
+  a multi-sub-agent fan-out), put a cheap check in front that culls the obvious
+  rejects first (`raise-vet` before `raise-match`). The gate writes a stub the
+  expensive step builds on; the expensive step is the **sole assembler** of the
+  shared artifact so the two-writer file never needs a merge. See
+  [[0017-raise-match-subagent-contract]].
+- **A skill family gets its own walled-off namespace + frontmatter marker.** An
+  optional track (like `raise-*`) keeps its state in a dedicated `.spine/<track>/`
+  subtree (never mixed with `context.md`/`journal.md`/`decisions/`) and tags each
+  `SKILL.md` with `metadata.track: <name>` so it groups cleanly. Skills declare
+  `allowed-tools` only where they use web/agent tools; `validate.mjs` ignores the
+  extra frontmatter keys (it checks only `name`==folder + `description`). See
+  [[0015-optional-fundraising-track]].
+- **Port external ideas clean-room.** When adapting another project's concept
+  (the fundraising track took ideas from the MIT vcupid-plugin), rewrite every
+  word in spine's own voice and copy no text — then no attribution is owed. Verify
+  with a grep for the source's distinctive strings before shipping.
