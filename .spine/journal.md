@@ -46,11 +46,11 @@ existing skill.
 
 ## Next step
 
-`build` complete — all 5 slices landed on branch `fundraising-track` (commits
-`537e497` → `4448e65`); the 11 `raise-*` skills are written, wired, and validated
-(`validate.mjs`: 20 skills valid; `node --test`: 0 fail). Run **`verify`** against
-the 12 acceptance criteria with evidence, then **`ship`** the branch as a PR with a
-body drawn from the Spine.
+**Shipped — [PR #15](https://github.com/AndrewTtofi/spine/pull/15) open** (branch
+`fundraising-track`, 7 commits, +1453/−34 across 26 files). Verified: all 12
+criteria met; PR body drawn from the Spine (criteria + ADRs 0015–0017 + evidence).
+`validate` CI check running at open; PR mergeable. **Awaiting review/merge** —
+merge left to the user. On merge, run `remember` to compact this session.
 
 ## Verification (2026-06-14)
 
