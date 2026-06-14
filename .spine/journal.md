@@ -46,16 +46,11 @@ existing skill.
 
 ## Next step
 
-`design` complete — architecture locked in ADRs [[0015]] (the track: 11 skills,
-namespace, packaging, frontmatter convention), [[0016]] (`.spine/raise/` layout +
-structured-header handoff), [[0017]] (`raise-vet` gate + `raise-match` 4-sub-agent
-contract); `context.md` updated with the architecture map + shared language.
-
-Run **`build`**, **Slice 1 (Foundation)** first: `raise-init` + the
-`.spine/raise/` layout + the `profile.md` schema (reference file) + the structured
-handoff-header convention, plus the new **"Fundraising track (optional)"** README
-section. Wire `raise-init` into all three places; `node scripts/validate.mjs` must
-stay green.
+`build` complete — all 5 slices landed on branch `fundraising-track` (commits
+`537e497` → `4448e65`); the 11 `raise-*` skills are written, wired, and validated
+(`validate.mjs`: 20 skills valid; `node --test`: 0 fail). Run **`verify`** against
+the 12 acceptance criteria with evidence, then **`ship`** the branch as a PR with a
+body drawn from the Spine.
 
 ## Build plan (slices) — each ends validator-green + fully wired
 
@@ -119,18 +114,18 @@ validator; criterion 12 = core skills/dashboard untouched).
 
 > Criteria define the **whole track**; `build` delivers them in TDD slices.
 
-- [ ] 1. A `.spine/raise/` namespace exists and is the **only** place the track reads/writes; no `raise-*` skill writes to `context.md`, `journal.md`, or `decisions/`.
-- [ ] 2. Given a repo with no fundraising state, the bootstrap skill (`raise-init`) creates `.spine/raise/` + a seeded `profile.md` via interview — and other `raise-*` skills refuse to run with a clear message if `profile.md` is absent.
-- [ ] 3. The track covers all four bundles — **validation & readiness**, **strategy & fund research**, **pitch & outreach**, **close & track** — each capability reachable by at least one `raise-*` skill.
-- [ ] 4. A fund-readiness scorecard skill outputs an explicit "ready to raise? what's missing" assessment derived from `profile.md`.
-- [ ] 5. The fund-match skill spawns **parallel research sub-agents** (thesis/portfolio/people/deal) via WebSearch/WebFetch and produces a fit score summing to /100 with a verdict.
-- [ ] 6. A consolidation skill assembles a single investor-ready dossier (`.spine/raise/report.md`) from the namespace contents.
-- [ ] 7. Every `raise-*` skill has frontmatter `name` == folder name, a `description` with explicit "Use when…" triggers, a declared **Spine I/O** section pointing at `.spine/raise/`, and `allowed-tools` where it uses web/agent tools.
-- [ ] 8. Every shipped `raise-*` skill is wired into `.claude-plugin/plugin.json`, `README.md` (under an "optional fundraising track" section), and `skills/README.md`.
-- [ ] 9. `node scripts/validate.mjs` exits 0 (`All N skills valid.`) with the new skills present.
-- [ ] 10. Skill prose is clean-room (no copied vcupid text) and matches spine's terse senior-engineer voice; the track is documented as **optional**.
-- [ ] 11. The term-sheet skill carries an explicit "informational, not legal advice" disclaimer; outreach skills draft but never send.
-- [ ] 12. Core lifecycle skills and existing validator/dashboard behaviour are unchanged and still pass.
+- [x] 1. A `.spine/raise/` namespace exists and is the **only** place the track reads/writes; no `raise-*` skill writes to `context.md`, `journal.md`, or `decisions/`. — every SKILL's Spine I/O points only at `.spine/raise/`; `namespace.md` codifies the rule.
+- [x] 2. Given a repo with no fundraising state, the bootstrap skill (`raise-init`) creates `.spine/raise/` + a seeded `profile.md` via interview — and other `raise-*` skills refuse to run with a clear message if `profile.md` is absent. — `raise-init` step 3; every other skill step 1 stops → `raise-init`.
+- [x] 3. The track covers all four bundles — **validation & readiness**, **strategy & fund research**, **pitch & outreach**, **close & track** — each capability reachable by at least one `raise-*` skill. — 11 skills span all four.
+- [x] 4. A fund-readiness scorecard skill outputs an explicit "ready to raise? what's missing" assessment derived from `profile.md`. — `raise-ready` (readiness_score + verdict + gap).
+- [x] 5. The fund-match skill spawns **parallel research sub-agents** (thesis/portfolio/people/deal) via WebSearch/WebFetch and produces a fit score summing to /100 with a verdict. — `raise-match` step 2–3 + 4 agent reference files.
+- [x] 6. A consolidation skill assembles a single investor-ready dossier (`.spine/raise/report.md`) from the namespace contents. — `raise-report` step 3.
+- [x] 7. Every `raise-*` skill has frontmatter `name` == folder name, a `description` with explicit "Use when…" triggers, a declared **Spine I/O** section pointing at `.spine/raise/`, and `allowed-tools` where it uses web/agent tools. — confirmed across all 11 (validator checks name==folder).
+- [x] 8. Every shipped `raise-*` skill is wired into `.claude-plugin/plugin.json`, `README.md` (under an "optional fundraising track" section), and `skills/README.md`. — validator enforces all three wirings.
+- [x] 9. `node scripts/validate.mjs` exits 0 (`All N skills valid.`) with the new skills present. — **All 20 skills valid.**
+- [x] 10. Skill prose is clean-room (no copied vcupid text) and matches spine's terse senior-engineer voice; the track is documented as **optional**. — fresh prose; README section titled "Fundraising track (optional)".
+- [x] 11. The term-sheet skill carries an explicit "informational, not legal advice" disclaimer; outreach skills draft but never send. — `raise-term` leads with the disclaimer; `raise-outreach` "drafts only — never sends".
+- [x] 12. Core lifecycle skills and existing validator/dashboard behaviour are unchanged and still pass. — 9 lifecycle skills untouched; `node --test` 0 fail.
 
 ## Shipped work archive — PR #14 (criteria all met, see History + ADR 0014)
 
