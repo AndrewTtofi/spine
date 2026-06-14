@@ -112,6 +112,45 @@ Extending spine:
 
 - **[new-skill](./skills/new-skill/SKILL.md)** — Scaffold a new spine skill — wired into the manifest, README, and index, and validator-green.
 
+## Fundraising track (optional)
+
+When a project needs funding, the **`raise-*`** skills take a founder from "are we
+even ready" through to a signed term sheet — everything required to convince a VC,
+or at least get fund-ready. State lives in its own walled-off **`.spine/raise/`**
+namespace (never mixed with the engineering Spine), and skills hand off through
+structured headers, not loose files. Opt in by running
+[`raise-init`](./skills/raise-init/SKILL.md); the rest of the lifecycle is
+untouched if you never do.
+
+A typical campaign runs the skills in this order:
+
+```
+raise-init → raise-ready → raise-funds → ┌─ per fund ─────────────────────┐
+ profile     fundable?     target list   │ raise-vet → raise-match         │
+                                          │  legit?     fit dossier /100    │
+ raise-strategy ←─ synthesises ───────────┤ raise-pitch → raise-outreach    │
+  the plan                                │  prep         draft (never send) │
+                                          │ raise-debrief → raise-term       │
+ raise-report ←─ tracker + dossier ───────┘  follow-up      term sheet       │
+                                          └────────────────────────────────┘
+```
+
+All state lands in `.spine/raise/` — `profile.md`, `readiness.md`, `strategy.md`,
+`pipeline.md`, `report.md`/`tracker.md`, and a `funds/<slug>/` folder per fund
+(`dossier.md`, `outreach.md`, `pitch.md`, `debrief.md`, `term.md`).
+
+- **[raise-init](./skills/raise-init/SKILL.md)** — Bootstrap `.spine/raise/` and seed the startup profile through a short interview.
+- **[raise-ready](./skills/raise-ready/SKILL.md)** — Are you fundable yet? Pressure-tests demand/ICP/wedge and scores readiness, naming the gap to fix.
+- **[raise-funds](./skills/raise-funds/SKILL.md)** — Research the VC landscape into a ranked pipeline of 15–20 target funds in three tiers.
+- **[raise-vet](./skills/raise-vet/SKILL.md)** — Vet a fund's legitimacy cheaply — is it real and active? — before deep research.
+- **[raise-match](./skills/raise-match/SKILL.md)** — Deep fund-fit dossier via four parallel research sub-agents, scored /100, with a pursue/warm-up/no-go verdict.
+- **[raise-strategy](./skills/raise-strategy/SKILL.md)** — Synthesise the namespace into a full strategy memo: parameters, sequencing, milestones, timeline, next actions.
+- **[raise-pitch](./skills/raise-pitch/SKILL.md)** — Stress-test (ten lethal questions + ten strongest signals) and fund-specific meeting prep.
+- **[raise-outreach](./skills/raise-outreach/SKILL.md)** — Fund-specific cold email, warm-intro request, LinkedIn DM, and one-pager — drafted, never sent; refuses no-go funds.
+- **[raise-debrief](./skills/raise-debrief/SKILL.md)** — Post-meeting debrief: signal read, open diligence queue, send-ready follow-up email, next step.
+- **[raise-term](./skills/raise-term/SKILL.md)** — Term-sheet analysis: clause benchmarking, founder-friendliness score, ranked negotiation list. Informational, not legal advice.
+- **[raise-report](./skills/raise-report/SKILL.md)** — Pipeline tracker (status of every fund) plus a consolidated, investor-ready dossier.
+
 ## Dashboard
 
 See your Spine in a browser — a read-only local dashboard that renders

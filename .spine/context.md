@@ -65,11 +65,47 @@ coding agent to work like a senior engineer and not lose the plot.
 - `docs/` — `plans/`, `specs/`, and `launch/` (unpublished launch material).
 - `.spine/` — this memory store: `context.md`, `conventions.md`, `journal.md`,
   `decisions/`. The connective tissue across phases and sessions.
+- **Fundraising track** (optional; `skills/raise-*`) — 11 deep-module skills that
+  take a founder from "should we even raise / are we ready" through strategy,
+  fund research, pitch prep, outreach, term sheets, and a consolidated investor
+  dossier. Clean-room from the vcupid-plugin (ideas only); ships in the same
+  plugin, grouped as **optional**. All state lives in a walled-off
+  **`.spine/raise/`** namespace, never mixing with context/journal/decisions. The
+  skills: `raise-init` (bootstrap + seed `profile.md`), `raise-ready` (validation
+  + fundability scorecard), `raise-strategy`, `raise-funds` (target pipeline),
+  `raise-vet` (cheap legitimacy gate), `raise-match` (4-sub-agent fit dossier,
+  gated by vet), `raise-pitch` (devil+angel+meeting prep), `raise-outreach`
+  (intro variants + one-pager), `raise-debrief`, `raise-term` (informational, not
+  legal advice), `raise-report` (tracker + dossier). Skills hand off via
+  **structured YAML headers**, not prose strings. See
+  [[0015-optional-fundraising-track]], [[0016-raise-namespace-layout-structured-handoff]],
+  [[0017-raise-match-subagent-contract]].
 
 ## Language
 
 **Spine**: the `.spine/` folder a skill maintains in a repo (context ·
 conventions · journal · decisions). _Avoid_: memory bank, context store.
+
+**Fundraising track**: the optional `raise-*` skill family and its `.spine/raise/`
+namespace — spine's "convince a VC / get fund-ready" capability, clean-room from
+vcupid. _Avoid_: "the VC plugin", "vcupid skills".
+
+**Raise namespace**: `.spine/raise/` — the walled-off store for fundraising state
+(`profile.md`, `readiness.md`, `strategy.md`, `pipeline.md`, `funds/<slug>/…`,
+`report.md`, `tracker.md`). Distinct from the engineering Spine.
+
+**Fund dossier**: `funds/<slug>/dossier.md` — one fund's full picture. `raise-vet`
+writes the legitimacy stub; `raise-match` is the sole assembler that rewrites it
+whole with the fit analysis. Carries the structured handoff header.
+
+**Structured handoff header**: the YAML frontmatter (`legitimacy_score`,
+`fit_score`, `recommended_action`, …) downstream `raise-*` skills read **by key** —
+the spine-native replacement for vcupid's prose-string parsing. See
+[[0016-raise-namespace-layout-structured-handoff]].
+
+**Vet gate**: `raise-vet`'s cheap legitimacy pre-filter that gates the expensive
+`raise-match` fan-out, so four sub-agents never run on a zombie fund. See
+[[0017-raise-match-subagent-contract]].
 
 **Lifecycle skill**: a skill mapped to one phase of engineering work that reads
 from and writes to the Spine.

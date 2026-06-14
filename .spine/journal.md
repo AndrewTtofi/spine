@@ -14,23 +14,84 @@ themselves produce (ADR `Labels:`, journal `{labels}`). All of it was built by
 memory and the worked example. Everything is merged to `main` (PRs #7–#12); CI (`validate` workflow) + branch
 protection now gate `main`.
 
-**Active ({tooling, validate, manifest, ci, tests}, confidence ~92%):** harden
-`scripts/validate.mjs` against the Claude Code **manifest schema**. Today it only
-checks truthiness, so `author: "string"` passes but silently blocks
-`/plugin install` (footgun noted in `conventions.md`), and `marketplace.json`
-isn't validated at all. Scope: enforce **core install-blocker** type/shape rules
-on **both** manifests, two tiers (errors fail / warnings inform), refactor the
-schema logic into pure importable functions (`validate.mjs` = thin CLI wrapper),
-add a `node:test` suite, and have CI run validate + tests. Out: full JSON-Schema
-deps, format-lint extras (semver/name-pattern/SPDX), the dashboard.
-Assumptions: malformed JSON → clean error; missing `marketplace.json` → error;
-exact schema rules confirmed against the authoritative spec in `design`.
+**Active ({raise, skills, fundraising, namespace, dogfood}, confidence 92%):** add
+an **optional "fundraising track"** to spine — a family of `raise-*` skills that
+take a founder from "should we even raise / are we ready" through strategy, fund
+research, pitch prep, outreach, term sheets, and a consolidated investor dossier —
+all re-homed onto a dedicated **`.spine/raise/`** namespace (walled off from
+`context.md`/`journal.md`/`decisions/`). Inspired by the vcupid-plugin (MIT, 16
+skills) but **clean-room**: ideas only, spine's own voice, no copied text → no
+attribution owed. Shipped inside the **existing spine plugin**, grouped as an
+**optional** track in the READMEs (`validate.mjs` wires them like any skill).
+Widest scope: all four bundles — **validation & readiness** (worth-building /
+ICP / wedge + a fund-readiness scorecard), **strategy & fund research** (strategy
+memo, fund pipeline, poser/legitimacy check, per-fund fit match via 4 parallel
+WebSearch/WebFetch sub-agents scored /100, perks, GP profiles), **pitch &
+outreach** (devil/angel, meeting prep, outreach + one-pager, debrief), **close &
+track** (term-sheet analysis, pipeline tracker, consolidated dossier). Markdown
+only (zero-NPM-dep preserved); each skill declares **Spine I/O** against
+`.spine/raise/` + `allowed-tools` where it needs web/agent tools.
+**Out:** no changes to core lifecycle skills; core `init` does not create
+`.spine/raise/`; no separate plugin/marketplace entry; no PDF/email/CRM (outreach
+**drafts**, never sends; reports are markdown); term-sheet skill is informational,
+not legal advice; no dashboard changes for the raise namespace (future); validation
+front-end bounded to *fundability*, not full product discovery; profile is
+founder-maintained (no web auto-update).
+**Assumptions (the last 10%):** exact skill decomposition (~12 consolidated vs ~17
+granular) is a **`design`-phase** call — lean toward consolidation; bootstrap is a
+dedicated **`raise-init`** (not folded into core `init`); **`build` delivers
+incrementally** in TDD slices (namespace + bootstrap + one fund-match vertical
+first, then fan out); validation front-end is fresh prose, not a wrapper over an
+existing skill.
 
 ## Next step
 
-None pending. PR #14 merged (`c917e29`); `main` clean, validator runs with zero
-warnings (license added). The full align→ship lifecycle + CI + branch protection
-are now proven on a real feature.
+**Shipped — [PR #15](https://github.com/AndrewTtofi/spine/pull/15) open** (branch
+`fundraising-track`, 7 commits, +1453/−34 across 26 files). Verified: all 12
+criteria met; PR body drawn from the Spine (criteria + ADRs 0015–0017 + evidence).
+`validate` CI check running at open; PR mergeable. **Awaiting review/merge** —
+merge left to the user. On merge, run `remember` to compact this session.
+
+## Verification (2026-06-14)
+
+**Verdict: all 12 acceptance criteria MET, with evidence.**
+- `node scripts/validate.mjs` → **All 20 skills valid** (9 lifecycle + 11 raise) → C8, C9.
+- `node --test scripts/` → **22 tests, 22 pass, 0 fail** → C12 (core unregressed).
+- All 11 `raise-*` skills present; each has `name`==folder, `metadata.track:
+  fundraising`, a `## Spine I/O` section, a "Use when" trigger, and `allowed-tools`
+  → C7. Web/agent tools only where needed (`raise-match` carries `Agent`).
+- Every Spine I/O target is under `.spine/raise/`; the only engineering-Spine
+  mention in the track is `raise-init`'s "Never touches the engineering Spine"
+  negation → C1. All 10 non-init skills stop → `raise-init` when `profile.md` is
+  absent → C2.
+- `raise-match`: 4 `references/agent-*.md` + "fire all four in a single message" →
+  C5. `raise-report` writes `report.md` (consolidated dossier) → C6. `raise-ready`
+  scores fundability + names the gap → C4. Four bundles each covered → C3.
+- `raise-term` says "not legal advice" (3×, leads output); `raise-outreach` "never
+  sends" (2×) → C11. README "Fundraising track (optional)" section present → C10.
+- Clean-room confirmed: grep for `vcupid|Poser Score|Startup Destroyer|Startup
+  Champion|STARTUP_PROFILE|/vc*|3flux` across the track → **none found**.
+
+## Build plan (slices) — each ends validator-green + fully wired
+
+1. **Foundation** — `raise-init` (bootstrap `.spine/raise/`, seed `profile.md` via
+   interview; clean-room profile schema in a reference file), the handoff-header
+   convention, and the README "Fundraising track (optional)" section. (criteria 1, 2, 7, 8, 10)
+2. **Fund research core** — `raise-vet` (cheap legitimacy stub) + `raise-match`
+   (gated 4-sub-agent dossier, `references/agent-{thesis,portfolio,people,deal}.md`,
+   /100 score, structured header). The workhorse vertical. (criteria 5, 7, 8)
+3. **Readiness + strategy + pipeline** — `raise-ready` (validation + fundability
+   scorecard), `raise-funds` (target pipeline), `raise-strategy` (memo). (criteria 3, 4)
+4. **Pitch + outreach** — `raise-pitch` (devil+angel+prep), `raise-outreach`
+   (variants + one-pager; refuses on `no-go`, never sends). (criteria 3, 11)
+5. **Close + track** — `raise-debrief`, `raise-term` (informational-not-legal
+   disclaimer), `raise-report` (tracker + consolidated `report.md` dossier).
+   (criteria 3, 6, 11)
+
+Every slice: write the skill(s), wire into `plugin.json` + `README.md` +
+`skills/README.md`, run `validate.mjs` to green, keep prose clean-room + in
+spine's voice. Final pass confirms all 12 acceptance criteria (criterion 9 = the
+validator; criterion 12 = core skills/dashboard untouched).
 
 ## Verification (2026-06-13)
 
@@ -69,25 +130,27 @@ are now proven on a real feature.
    validator tests), extend the `validate` workflow to run validate + tests.
    (criterion 11)
 
-## Acceptance criteria (active work)
+## Acceptance criteria (active work — fundraising track)
 
-## Acceptance criteria (active work)
+> Criteria define the **whole track**; `build` delivers them in TDD slices.
 
-- [x] 1. `plugin.json` `author` as a bare string → **fails** (exit 1), message names "author must be an object with a name".
-- [x] 2. `plugin.json` missing/empty `name`/`description`/`version` → fails, field-specific.
-- [x] 3. `author` object missing `name` → fails.
-- [x] 4. `marketplace.json` missing/non-object `owner` or missing `owner.name` → fails.
-- [x] 5. `plugins[]` entry missing `name` or `source` → fails.
-- [x] 6. Malformed JSON in either manifest → fails with `invalid JSON in <file>` (no raw stack trace).
-- [x] 7. Missing `marketplace.json` → fails.
-- [x] 8. Current real manifests → **passes** (exit 0).
-- [x] 9. Best-practice nits (missing `license`/`keywords`, plugin↔marketplace `version` mismatch) → **warnings**, build still passes.
-- [x] 10. Schema logic in pure importable functions returning `{errors, warnings}`; `validate.mjs` only prints + sets exit code.
-- [x] 11. `node --test` passes a suite covering 1–9; CI runs validate + tests under the required `validate` check.
-- [x] 12. Pre-existing checks (skill frontmatter, README/skills wiring) remain and still pass.
-- [x] 13. Non-kebab-case `name` (plugin.json, marketplace.json, or a `plugins[]` entry) → **fails** (install-blocker, pulled into scope after schema research).
-- [x] 14. `keywords` present but not an array → fails; a `plugins[]` `source` that's a string not starting with `./` → fails.
-- [x] 15. Schema logic lives in pure `scripts/manifest-schema.mjs` (no fs/exit); `validate.mjs` is the thin CLI wrapper that reads/parses/prints/exits.
+- [x] 1. A `.spine/raise/` namespace exists and is the **only** place the track reads/writes; no `raise-*` skill writes to `context.md`, `journal.md`, or `decisions/`. — every SKILL's Spine I/O points only at `.spine/raise/`; `namespace.md` codifies the rule.
+- [x] 2. Given a repo with no fundraising state, the bootstrap skill (`raise-init`) creates `.spine/raise/` + a seeded `profile.md` via interview — and other `raise-*` skills refuse to run with a clear message if `profile.md` is absent. — `raise-init` step 3; every other skill step 1 stops → `raise-init`.
+- [x] 3. The track covers all four bundles — **validation & readiness**, **strategy & fund research**, **pitch & outreach**, **close & track** — each capability reachable by at least one `raise-*` skill. — 11 skills span all four.
+- [x] 4. A fund-readiness scorecard skill outputs an explicit "ready to raise? what's missing" assessment derived from `profile.md`. — `raise-ready` (readiness_score + verdict + gap).
+- [x] 5. The fund-match skill spawns **parallel research sub-agents** (thesis/portfolio/people/deal) via WebSearch/WebFetch and produces a fit score summing to /100 with a verdict. — `raise-match` step 2–3 + 4 agent reference files.
+- [x] 6. A consolidation skill assembles a single investor-ready dossier (`.spine/raise/report.md`) from the namespace contents. — `raise-report` step 3.
+- [x] 7. Every `raise-*` skill has frontmatter `name` == folder name, a `description` with explicit "Use when…" triggers, a declared **Spine I/O** section pointing at `.spine/raise/`, and `allowed-tools` where it uses web/agent tools. — confirmed across all 11 (validator checks name==folder).
+- [x] 8. Every shipped `raise-*` skill is wired into `.claude-plugin/plugin.json`, `README.md` (under an "optional fundraising track" section), and `skills/README.md`. — validator enforces all three wirings.
+- [x] 9. `node scripts/validate.mjs` exits 0 (`All N skills valid.`) with the new skills present. — **All 20 skills valid.**
+- [x] 10. Skill prose is clean-room (no copied vcupid text) and matches spine's terse senior-engineer voice; the track is documented as **optional**. — fresh prose; README section titled "Fundraising track (optional)".
+- [x] 11. The term-sheet skill carries an explicit "informational, not legal advice" disclaimer; outreach skills draft but never send. — `raise-term` leads with the disclaimer; `raise-outreach` "drafts only — never sends".
+- [x] 12. Core lifecycle skills and existing validator/dashboard behaviour are unchanged and still pass. — 9 lifecycle skills untouched; `node --test` 0 fail.
+
+## Shipped work archive — PR #14 (criteria all met, see History + ADR 0014)
+
+The Verification and Build-plan sections above pertain to the **shipped** manifest-schema
+hardening (PR #14, `c917e29`) — retained as a worked example, not active work.
 
 ## Prior candidate follow-ups (not committed to):
 - Apply the collision pass to the **expanded** commit-ring too (a ring can

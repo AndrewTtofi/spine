@@ -13,6 +13,17 @@
     "./skills/ship",
     "./skills/troubleshoot",
     "./skills/remember",
-    "./skills/new-skill"
+    "./skills/new-skill",
+    "./skills/raise-init",
+    "./skills/raise-vet",
+    "./skills/raise-match",
+    "./skills/raise-ready",
+    "./skills/raise-funds",
+    "./skills/raise-strategy",
+    "./skills/raise-pitch",
+    "./skills/raise-outreach",
+    "./skills/raise-debrief",
+    "./skills/raise-term",
+    "./skills/raise-report"
   ]
 }
