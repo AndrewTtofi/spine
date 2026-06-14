@@ -112,6 +112,18 @@ Extending spine:
 
 - **[new-skill](./skills/new-skill/SKILL.md)** — Scaffold a new spine skill — wired into the manifest, README, and index, and validator-green.
 
+## Fundraising track (optional)
+
+When a project needs funding, the **`raise-*`** skills take a founder from "are we
+even ready" through to a signed term sheet — everything required to convince a VC,
+or at least get fund-ready. State lives in its own walled-off **`.spine/raise/`**
+namespace (never mixed with the engineering Spine), and skills hand off through
+structured headers, not loose files. Opt in by running
+[`raise-init`](./skills/raise-init/SKILL.md); the rest of the lifecycle is
+untouched if you never do.
+
+- **[raise-init](./skills/raise-init/SKILL.md)** — Bootstrap `.spine/raise/` and seed the startup profile through a short interview.
+
 ## Dashboard
 
 See your Spine in a browser — a read-only local dashboard that renders

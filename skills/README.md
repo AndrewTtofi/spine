@@ -14,3 +14,8 @@ The lifecycle loop. Each skill reads from and writes to the Spine (`.spine/`).
 Meta:
 
 - **[new-skill](./new-skill/SKILL.md)** — Scaffold a new spine skill, wired and validator-green.
+
+Fundraising track (optional) — reads from and writes to `.spine/raise/`, a
+namespace separate from the engineering Spine. Opt in with `raise-init`.
+
+- **[raise-init](./raise-init/SKILL.md)** — Bootstrap `.spine/raise/`; seed the startup profile via interview.
