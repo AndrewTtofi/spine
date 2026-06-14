@@ -123,8 +123,11 @@ structured headers, not loose files. Opt in by running
 untouched if you never do.
 
 - **[raise-init](./skills/raise-init/SKILL.md)** — Bootstrap `.spine/raise/` and seed the startup profile through a short interview.
+- **[raise-ready](./skills/raise-ready/SKILL.md)** — Are you fundable yet? Pressure-tests demand/ICP/wedge and scores readiness, naming the gap to fix.
+- **[raise-funds](./skills/raise-funds/SKILL.md)** — Research the VC landscape into a ranked pipeline of 15–20 target funds in three tiers.
 - **[raise-vet](./skills/raise-vet/SKILL.md)** — Vet a fund's legitimacy cheaply — is it real and active? — before deep research.
 - **[raise-match](./skills/raise-match/SKILL.md)** — Deep fund-fit dossier via four parallel research sub-agents, scored /100, with a pursue/warm-up/no-go verdict.
+- **[raise-strategy](./skills/raise-strategy/SKILL.md)** — Synthesise the namespace into a full strategy memo: parameters, sequencing, milestones, timeline, next actions.
 
 ## Dashboard
 

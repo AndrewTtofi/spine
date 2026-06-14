@@ -16,6 +16,9 @@
     "./skills/new-skill",
     "./skills/raise-init",
     "./skills/raise-vet",
-    "./skills/raise-match"
+    "./skills/raise-match",
+    "./skills/raise-ready",
+    "./skills/raise-funds",
+    "./skills/raise-strategy"
   ]
 }

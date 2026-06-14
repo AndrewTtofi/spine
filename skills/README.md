@@ -19,5 +19,8 @@ Fundraising track (optional) — reads from and writes to `.spine/raise/`, a
 namespace separate from the engineering Spine. Opt in with `raise-init`.
 
 - **[raise-init](./raise-init/SKILL.md)** — Bootstrap `.spine/raise/`; seed the startup profile via interview.
+- **[raise-ready](./raise-ready/SKILL.md)** — Fundability gut-check: pressure-tests demand/ICP/wedge, scores readiness, names the gap.
+- **[raise-funds](./raise-funds/SKILL.md)** — Research the landscape into a ranked, tiered pipeline of target funds.
 - **[raise-vet](./raise-vet/SKILL.md)** — Cheap legitimacy gate: is the fund real and active? Writes a stub dossier.
 - **[raise-match](./raise-match/SKILL.md)** — Four-agent fit dossier, scored /100; sole assembler of the fund dossier.
+- **[raise-strategy](./raise-strategy/SKILL.md)** — Synthesise the namespace into a full fundraising strategy memo.
