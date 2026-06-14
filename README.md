@@ -123,6 +123,8 @@ structured headers, not loose files. Opt in by running
 untouched if you never do.
 
 - **[raise-init](./skills/raise-init/SKILL.md)** — Bootstrap `.spine/raise/` and seed the startup profile through a short interview.
+- **[raise-vet](./skills/raise-vet/SKILL.md)** — Vet a fund's legitimacy cheaply — is it real and active? — before deep research.
+- **[raise-match](./skills/raise-match/SKILL.md)** — Deep fund-fit dossier via four parallel research sub-agents, scored /100, with a pursue/warm-up/no-go verdict.
 
 ## Dashboard
 
